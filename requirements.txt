@@ -1,0 +1,3 @@
+pylint #noDeploy
+boto3 #noDeploy
+botocore #noDeploy
