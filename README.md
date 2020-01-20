@@ -26,7 +26,7 @@ sls deploy
 ```
 - Test
 ```
-curl
+curl https://yoururl.execute-api.us-east-1.amazonaws.com/prod/ping
 ```
 - Delete .git folder
 - Ready
