@@ -20,6 +20,11 @@ virtualenv venv --python=python3
 ```
 sls plugin install -n serverless-python-requirements
 ```
+- Install python libs
+```
+source venv/bin/activate
+pip install -r requirements.txt 
+```
 - Deploy
 ```
 sls deploy
