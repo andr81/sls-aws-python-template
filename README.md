@@ -19,6 +19,7 @@ virtualenv venv --python=python3
 - Install sls plugins
 ```
 sls plugin install -n serverless-python-requirements
+sls plugin install -n serverless-pseudo-parameters
 ```
 - Install python libs
 ```

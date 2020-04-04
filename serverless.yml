@@ -2,6 +2,7 @@ service: backend-template
 
 plugins:
   - serverless-python-requirements
+  - serverless-pseudo-parameters
 custom:
   pythonRequirements:
     dockerizePip: true
@@ -13,38 +14,36 @@ custom:
       - pytest
   stage: ${self:provider.stage}
   project: backend-template
-  aws-account-id: 111111111111
   prefix: ${self:custom.project}${self:custom.stage}
-  sns-dead-arn: arn:aws:sns:${self:provider.region}:${self:custom.aws-account-id}:${self:custom.prefix}-dead
-  sqs-dead-arn: arn:aws:sqs:${self:provider.region}:${self:custom.aws-account-id}:${self:custom.prefix}-dead
+  sns-dead-arn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-dead
+  sqs-dead-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-dead
 
 provider:
   name: aws
   runtime: python3.8
   stage: ${opt:stage, 'prod'}
-  region: us-east-1
   iamRoleStatements:
     - Effect: Allow
       Action:
         - ssm:GetParameter
       Resource:
-        - arn:aws:ssm:${self:provider.region}:${self:custom.aws-account-id}:parameter/${self:custom.prefix}_*
+        - arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/${self:custom.prefix}_*
     - Effect: Allow
       Action:
         - lambda:invokeFunction
       Resource:
-        - arn:aws:lambda:${self:provider.region}:*:function:${self:custom.prefix}*
+        - arn:aws:lambda:#{AWS::Region}:*:function:${self:custom.prefix}*
     - Effect: Allow
       Action:
         - sns:Publish
       Resource:
-        - arn:aws:sns:${self:provider.region}:${self:custom.aws-account-id}:${self:custom.prefix}-*
+        - arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-*
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:GetQueueUrl
       Resource:
-        - arn:aws:sqs:${self:provider.region}:${self:custom.aws-account-id}:${self:custom.prefix}-*
+        - arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-*
     - Effect: Allow
       Action:
         - events:PutEvents
@@ -77,7 +76,7 @@ functions:
     memorySize: 128
     timeout: 30
     events:
-      - http: GET ping
+      - http: GET v1/ping
 
 resources:
   Resources:
