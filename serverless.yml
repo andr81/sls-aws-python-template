@@ -14,7 +14,7 @@ custom:
       - pytest
   stage: ${self:provider.stage}
   project: backend-template
-  prefix: ${self:custom.project}${self:custom.stage}
+  prefix: ${self:custom.project}-${self:custom.stage}
   sns-dead-arn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-dead
   sqs-dead-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-dead
 
