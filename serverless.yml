@@ -2,7 +2,6 @@ service: backend-template
 
 plugins:
   - serverless-python-requirements
-  - serverless-pseudo-parameters
 custom:
   pythonRequirements:
     dockerizePip: true
@@ -15,8 +14,8 @@ custom:
   stage: ${self:provider.stage}
   project: backend-template
   prefix: ${self:custom.project}-${self:custom.stage}
-  sns-dead-arn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-dead
-  sqs-dead-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-dead
+  sns-dead-arn: arn:aws:sns:${aws:region}:${aws:accountId}:${self:custom.prefix}-dead
+  sqs-dead-arn: arn:aws:sqs:${aws:region}:${aws:accountId}:${self:custom.prefix}-dead
 
 provider:
   name: aws
@@ -27,23 +26,23 @@ provider:
       Action:
         - ssm:GetParameter
       Resource:
-        - arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/${self:custom.prefix}_*
+        - arn:aws:ssm:${aws:region}:${aws:accountId}:parameter/${self:custom.prefix}_*
     - Effect: Allow
       Action:
         - lambda:invokeFunction
       Resource:
-        - arn:aws:lambda:#{AWS::Region}:*:function:${self:custom.prefix}*
+        - arn:aws:lambda:${aws:region}:*:function:${self:custom.prefix}*
     - Effect: Allow
       Action:
         - sns:Publish
       Resource:
-        - arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-*
+        - arn:aws:sns:${aws:region}:${aws:accountId}:${self:custom.prefix}-*
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:GetQueueUrl
       Resource:
-        - arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.prefix}-*
+        - arn:aws:sqs:${aws:region}:${aws:accountId}:${self:custom.prefix}-*
     - Effect: Allow
       Action:
         - events:PutEvents

@@ -14,12 +14,11 @@ git clone git@github.com:andr81/sls-aws-python-template.git
 - Install npm, serverless, docker, python
 - Install python virtual environment
 ```
-virtualenv venv --python=python3
+virtualenv venv --python=python3.8
 ```
 - Install sls plugins
 ```
 sls plugin install -n serverless-python-requirements
-sls plugin install -n serverless-pseudo-parameters
 ```
 - Install python libs
 ```
