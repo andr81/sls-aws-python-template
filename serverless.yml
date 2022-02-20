@@ -21,6 +21,11 @@ provider:
   name: aws
   runtime: python3.8
   stage: ${opt:stage, 'prod'}
+  environment:
+    REGION: eu-central-1
+    PREFIX: ${self:custom.prefix}
+    MONGODB_URL: ${env:MONGODB_URL}
+    MONGODB_DATABASE: ${env:MONGODB_DATABASE}
   iamRoleStatements:
     - Effect: Allow
       Action:
