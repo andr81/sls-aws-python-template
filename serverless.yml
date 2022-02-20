@@ -75,7 +75,9 @@ functions:
     memorySize: 128
     timeout: 30
     events:
-      - http: GET v1/ping
+      - httpApi:
+          method: 'GET'
+          path: /v1/ping
 
 resources:
   Resources:
