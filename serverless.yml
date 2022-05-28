@@ -2,6 +2,7 @@ service: backend-template
 
 plugins:
   - serverless-python-requirements
+  - serverless-prune-plugin
 custom:
   pythonRequirements:
     dockerizePip: true
@@ -11,6 +12,9 @@ custom:
       - pylint
       - autopep8
       - pytest
+  prune:
+    automatic: true
+    number: 3
   stage: ${self:provider.stage}
   project: backend-template
   prefix: ${self:custom.project}-${self:custom.stage}
@@ -21,6 +25,7 @@ provider:
   name: aws
   runtime: python3.8
   stage: ${opt:stage, 'prod'}
+  versionFunctions: false
   environment:
     REGION: eu-central-1
     PREFIX: ${self:custom.prefix}
